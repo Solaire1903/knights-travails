@@ -1,3 +1,1 @@
-# node-template
-
-Template for Node.js based projects that don't have a GUI
+Exercise to find the shortest path in a graph, based on how a Knight in chess moves
