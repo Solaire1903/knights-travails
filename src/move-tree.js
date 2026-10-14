@@ -1,3 +1,5 @@
+import arraysAreEqual from "./compare-arrays.js";
+
 /**
  * Represents a node in the move tree
  */
@@ -17,6 +19,8 @@ class MoveTree {
     this.root = new Node(start);
     this.end = end;
     this.presentCoordinates = [start];
+
+    this.#buildTree(this.root);
   }
 
   /**
@@ -60,19 +64,46 @@ class MoveTree {
    * @param {Array<Number>} coordinates The coordinates to generate the child nodes from
    * @returns The array of child nodes
    */
-  generateChildNodes(coordinates) {
+  #generateChildNodes(coordinates) {
     const children = [];
     const nextMoves = this.#generateNextMoves(coordinates);
 
-    //Only generate node when it has not yet been generated in the tree
+    //Only generate node when it has not yet been generated in the tree (exception is the end node)
     nextMoves.forEach((coordinate) => {
-      if (!this.presentCoordinates.includes(coordinate)) {
-        this.presentCoordinates.push(coordinate);
+      const presentCoordinatesAsString = JSON.stringify(
+        this.presentCoordinates,
+      );
+      const coordinateAsString = JSON.stringify(coordinate);
+
+      if (presentCoordinatesAsString.indexOf(coordinateAsString) === -1) {
+        if (!arraysAreEqual(coordinate, this.end))
+          this.presentCoordinates.push(coordinate);
         children.push(new Node(coordinate));
       }
     });
 
     return children;
+  }
+
+  /**
+   * Builds the move tree from the given root node
+   * @param {Node} root The root node to build the tree from
+   */
+  #buildTree(root) {
+    const queue = [root];
+
+    while (queue.length > 0) {
+      const currentNode = queue.shift();
+
+      //Do not generate child nodes for nodes with end value
+      if (!arraysAreEqual(currentNode.value, this.end)) {
+        currentNode.children = this.#generateChildNodes(currentNode.value);
+
+        currentNode.children.forEach((node) => {
+          queue.push(node);
+        });
+      }
+    }
   }
 }
 
