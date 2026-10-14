@@ -89,15 +89,16 @@ class MoveTree {
 
     while (queue.length > 0) {
       const currentNode = queue.shift();
+      currentNode.children = this.#generateChildNodes(currentNode.value);
 
-      //Do not generate child nodes for nodes with end value
-      if (!arraysAreEqual(currentNode.value, this.end)) {
-        currentNode.children = this.#generateChildNodes(currentNode.value);
-
-        currentNode.children.forEach((node) => {
-          queue.push(node);
-        });
+      //Stop tree building when end node is found
+      if (includesArray(currentNode.children, this.end)) {
+        return;
       }
+
+      currentNode.children.forEach((node) => {
+        queue.push(node);
+      });
     }
   }
 }
