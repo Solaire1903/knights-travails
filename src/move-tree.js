@@ -1,4 +1,4 @@
-import arraysAreEqual from "./compare-arrays.js";
+import { arraysAreEqual, includesArray } from "./compare-arrays.js";
 
 /**
  * Represents a node in the move tree
@@ -70,12 +70,7 @@ class MoveTree {
 
     //Only generate node when it has not yet been generated in the tree (exception is the end node)
     nextMoves.forEach((coordinate) => {
-      const presentCoordinatesAsString = JSON.stringify(
-        this.presentCoordinates,
-      );
-      const coordinateAsString = JSON.stringify(coordinate);
-
-      if (presentCoordinatesAsString.indexOf(coordinateAsString) === -1) {
+      if (!includesArray(this.presentCoordinates, coordinate)) {
         if (!arraysAreEqual(coordinate, this.end))
           this.presentCoordinates.push(coordinate);
         children.push(new Node(coordinate));
