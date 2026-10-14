@@ -1,3 +1,6 @@
+/**
+ * Represents a node in the move tree
+ */
 class Node {
   constructor(value) {
     this.value = value;
@@ -5,12 +8,23 @@ class Node {
   }
 }
 
+/**
+ * Represents a tree with all possible knight paths from the
+ * start coordinate to the end coordinate on a 8x8 chess field
+ */
 class MoveTree {
-  constructor(start) {
+  constructor(start, end) {
     this.root = new Node(start);
+    this.end = end;
+    this.presentCoordinates = [start];
   }
 
-  generateNextMoves(coordinates) {
+  /**
+   * Generates all possible next knight moves from the given coordinates
+   * @param {Array<Number>} coordinates The coordinates to generate the moves from
+   * @returns The array of all possible next moves
+   */
+  #generateNextMoves(coordinates) {
     const nextMoves = [];
 
     for (let x = -2; x < 3; x++) {
@@ -39,6 +53,26 @@ class MoveTree {
     }
 
     return nextMoves;
+  }
+
+  /**
+   * Generates all child nodes for a given node's coordinates
+   * @param {Array<Number>} coordinates The coordinates to generate the child nodes from
+   * @returns The array of child nodes
+   */
+  generateChildNodes(coordinates) {
+    const children = [];
+    const nextMoves = this.#generateNextMoves(coordinates);
+
+    //Only generate node when it has not yet been generated in the tree
+    nextMoves.forEach((coordinate) => {
+      if (!this.presentCoordinates.includes(coordinate)) {
+        this.presentCoordinates.push(coordinate);
+        children.push(new Node(coordinate));
+      }
+    });
+
+    return children;
   }
 }
 
