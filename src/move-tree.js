@@ -1,4 +1,4 @@
-import { arraysAreEqual, includesArray } from "./compare-arrays.js";
+import { arraysAreEqual, includesArray } from "./array-comparisons.js";
 
 /**
  * Represents a node in the move tree
