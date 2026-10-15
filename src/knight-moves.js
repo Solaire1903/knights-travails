@@ -7,7 +7,7 @@ const knightMoves = (start, end) => {
   console.log(`You made it in ${path.length - 1} moves! Here's your path:\n`);
   path.forEach((move) => {
     console.log(move);
-  })
+  });
 };
 
 export default knightMoves;
