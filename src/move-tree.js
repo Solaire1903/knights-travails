@@ -101,6 +101,29 @@ class MoveTree {
       });
     }
   }
+  /**
+   * Finds the path to the node with the given value, starting from the root.
+   * If there is more than one node with the value, finds the path to the leftmost
+   * node with that value.
+   * @param value The value of the node to search the path to
+   * @param curr The current node that is visited
+   * @returns An array of all values from the root to the target node in order
+   */
+  findPath(value, curr = this.root) {
+    if (arraysAreEqual(curr.value, value)) return [curr.value];
+    if (curr.children.length === 0) return [];
+
+    let path = [];
+    curr.children.forEach((childNode) => {
+      const prevPath = this.findPath(value, childNode);
+      if (includesArray(prevPath, value)) {
+        path.push(curr.value);
+        path = path.concat(prevPath);
+      }
+    });
+
+    return path;
+  }
 }
 
 export default MoveTree;

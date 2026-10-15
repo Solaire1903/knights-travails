@@ -1,10 +1,5 @@
 import MoveTree from "./move-tree.js";
 
-const moveTree = new MoveTree([0, 0], [3, 3]);
+const moveTree = new MoveTree([0, 0], [7, 7]);
 
-moveTree.root.children.forEach((node) => {
-  const currentChildren = node.children;
-  currentChildren.forEach((node) => {
-    console.log(node.value);
-  });
-});
+console.log(moveTree.findPath(moveTree.end));

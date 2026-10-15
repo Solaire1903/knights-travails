@@ -12,3 +12,15 @@ describe("Initialize Tree", () => {
     expect(moveTree.root.children[1].value).toEqual([2, 1]);
   });
 });
+
+describe("Function test: findPath", () => {
+  const moveTree = new MoveTree([0, 0], [3, 3]);
+
+  test("Finds correct path", () => {
+    expect(moveTree.findPath(moveTree.end)).toEqual([
+      [0, 0],
+      [1, 2],
+      [3, 3],
+    ]);
+  });
+});
